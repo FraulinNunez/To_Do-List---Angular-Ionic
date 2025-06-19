@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { IonAlert, ModalController } from '@ionic/angular';
 import { TodoService } from '../todo.service';
 
 
@@ -9,8 +9,9 @@ import { TodoService } from '../todo.service';
   styleUrls: ['./add-new-task.page.scss'],
 })
 export class AddNewTaskPage implements OnInit {
-
-  categorias = ['trabajo','personal','hogar' ]
+  isAlertOpen = false;
+  alertButtons = ['Action'];
+  categorias = ['Trabajo','Personal','Hogar', 'Deporte' , 'Leer' , 'Jugar'  ]
   newTaskObj={}
   nombreTarea: any
   fechaTarea: any
@@ -20,11 +21,12 @@ export class AddNewTaskPage implements OnInit {
   tareaObjeto: any
   constructor(public modalCtrl: ModalController, public todoService: TodoService) { }
 
+  setOpen(isOpen: boolean) {
+    this.isAlertOpen = isOpen;
+  }
 
   ngOnInit() {
-    this.categorias.push('Trabajo')
-    this.categorias.push('Personal')
-    this.categorias.push('Hogar')
+    
   }
   async dismis(){
     await this.modalCtrl.dismiss(this.tareaObjeto)
@@ -35,11 +37,21 @@ export class AddNewTaskPage implements OnInit {
   }
 
   adicionarTarea(){
-  this.tareaObjeto = ({nombreItem:this.nombreTarea, 
+    console.log(this.tareaObjeto)
+    console.log(this.nombreTarea , this.fechaTarea , this.prioridadTarea , this.categoriaTarea)
+    // const { nombreTarea, fechaTarea, prioridadTarea, categoriaTarea } = this;
+
+    if(this.nombreTarea && this.fechaTarea && this.prioridadTarea && this.categoriaTarea){
+       this.tareaObjeto = ({nombreItem:this.nombreTarea, 
                       fechaItem:this.fechaTarea,                       
                       prioridadItem:this.prioridadTarea, 
                       categoriaItem:this.categoriaTarea})
     this.dismis()
+    }else{
+      console.log('por favor complete todos los datos')
+      this.setOpen(true)
+    }
+ 
   }
 
 }

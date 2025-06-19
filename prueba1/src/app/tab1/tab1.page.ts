@@ -51,9 +51,11 @@ export class Tab1Page {
 
   modal.onDidDismiss().then(newTaskObj =>{
    //console.log(newTaskObj.data);
-
-   this.todoList.push(newTaskObj.data)
-
+  if(newTaskObj.data){
+    this.todoList.push(newTaskObj.data)
+   console.log(this.todoList)
+  }
+   
   })
  return await modal.present()
   }
